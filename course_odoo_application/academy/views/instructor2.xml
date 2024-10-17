@@ -1,0 +1,94 @@
+<odoo>
+
+    <data>
+        <record id="instructors_view_form" model="ir.ui.view">
+            <field name="name">instructor_view_form</field>
+            <field name="model">academy.instructor1</field>
+            <field name="arch" type="xml">
+                <form string="course_form">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" />
+                                <field name="gender"/>
+                            </group>
+                            <group>
+                                <field name="notes" readonly="1"/>
+                                <field name="expereience"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="instructors_action" model="ir.actions.act_window">
+            <field name="name">Instructors</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">academy.instructor1</field>
+            <field name="view_mode">tree,form</field>
+
+        </record>
+
+        <menuitem id="instructors_menu" name="Instructors" action="instructors_action" parent='courses_root'
+                  sequence="2"/>
+
+        <!--    <record model="academy.academy" id="Course1">-->
+        <!--      <field name="name">Python</field>-->
+
+        <!--    </record>-->
+
+    </data>
+</odoo>
+
+        <!--      <field name="model">academy.academy</field>-->
+        <!--      <field name="arch" type="xml">-->
+        <!--        <tree>-->
+        <!--          <field name="name"/>-->
+        <!--          <field name="value"/>-->
+        <!--          <field name="value2"/>-->
+        <!--        </tree>-->
+        <!--      </field>-->
+
+
+        <!-- actions opening views on models -->
+        <!--
+            <record model="ir.actions.act_window" id="academy.action_window">
+              <field name="name">Academy window</field>
+              <field name="res_model">academy.academy</field>
+              <field name="view_mode">tree,form</field>
+            </record>
+        -->
+
+        <!-- server action to the one above -->
+        <!--
+            <record model="ir.actions.server" id="academy.action_server">
+              <field name="name">Academy server</field>
+              <field name="model_id" ref="model_academy_academy"/>
+              <field name="state">code</field>
+              <field name="code">
+                action = {
+                  "type": "ir.actions.act_window",
+                  "view_mode": "tree,form",
+                  "res_model": model._name,
+                }
+              </field>
+            </record>
+        -->
+
+        <!-- Top menu item -->
+        <!--
+            <menuitem name="Academy" id="academy.menu_root"/>
+        -->
+        <!-- menu categories -->
+        <!--
+            <menuitem name="Menu 1" id="academy.menu_1" parent="academy.menu_root"/>
+            <menuitem name="Menu 2" id="academy.menu_2" parent="academy.menu_root"/>
+        -->
+        <!-- actions -->
+        <!--
+            <menuitem name="List" id="academy.menu_1_list" parent="academy.menu_1"
+                      action="academy.action_window"/>
+            <menuitem name="Server to list" id="academy" parent="academy.menu_2"
+                      action="academy.action_server"/>
+        -->

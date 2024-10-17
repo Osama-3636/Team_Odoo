@@ -1,0 +1,163 @@
+<odoo>
+
+    <record id="course_view_form" model="ir.ui.view">
+        <field name="name">course_view_form</field>
+        <field name="model">academy.academy</field>
+        <field name="arch" type="xml">
+            <form string="course_form">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" readonly="1"/>
+                            <field name="description"/>
+                        </group>
+                        <group>
+                            <field name="active"/>
+                            <field name="price"/>
+                        </group>
+                        <group>
+                            <field name="date"/>
+                            <field name="text"/>
+                            <field name="start_time"/>
+                            <field name="icon"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page name="students" string="">
+                            <div>
+                                <h3>type your notes</h3>
+                            </div>
+                            <field name="text"/>
+                            <field name="icon"/>
+                            <div>
+                                <h3>upload ur image</h3>
+                            </div>
+                            <field name="image" widget="image"/>
+                        </page>
+
+<!--                        <page name="others" string="">-->
+                            <field name="instructors"/>
+
+<!--                        </page>-->
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <menuitem id="courses_root" name="Academy main" action="main_action" sequence="1"/>
+    <!--this action is for main menu-->
+    <record id="main_action" model="ir.actions.act_window">
+        <field name="name">main</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">academy.academy</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="Search_view" model="ir.ui.view">
+        <field name="name">Search_view</field>
+        <field name="model">academy.academy</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" string="naming"
+                       filter_domain="['|' , ('name','like',self),('description','=',self),('text','ilike',self)]"/>
+                <!--                in this condition search will appear if only name=description exact the same-->
+                <!--                like is meaning any chracter looks like not the entire word
+                                     ilike any thing capital or small will appear-->
+                <!--                if want one of two put sign of or |-->
+                <!--                &amp; is meaning and-->
+                <!--                string is name want to search with-->
+                <!--      <field name="name" string="string" domain="[()]"/>-->
+                <!--                domain is list of tubles to add attribute to field
+                 field name , operation wanted , the number-->
+                <!--                if wanted to search by name and description in same code like upper-->
+                <!--                &lt; meaning lower than-->
+                <field name="text"/>
+                <field name="price"/>
+                <filter name="compeleted filtering" domain='[("completed","=",True)]'/>
+                <separator/>
+                <!--                separator for line separating between filters-->
+                <filter name="group_completed" string="compeleted filtering group" context="{'group_by':'completed'}"/>
+                <!--                gropu by for grouping filter is dictionart and write group by in first cell the other write what do u want to grouping , exit also in action samme way
+                and take the wanted search name and put it in context in action-->
+            </search>
+        </field>
+    </record>
+
+    <menuitem id="courses_menu" name="Courses" parent='courses_root' action="courses_action" sequence="2"/>
+    <!--                if view is tree will apear in interface menu in upp-->
+    <record id="courses_view_tree" model="ir.ui.view">
+        <field name="name">_view_tree</field>
+        <field name="model">academy.academy</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree string="_tree" default_order="date desc" editable="top" multi_edit="1"
+                  decoration-info="completed==False"
+                  decoration-danger="completed==True">
+                <field name="name"/>
+                <field name="text"/>
+                <field name="completed"/>
+                <field name="icon"/>
+                <field name="price"/>
+                <field name="end_time"/>
+                <field name="description" optional="hide"/>
+            </tree>
+        </field>
+    </record>
+    <!--        action-->
+    <!--        choosing action from menu action put the id of the wanted action
+                 choosing the parent menu -->
+    <record id="courses_action" model="ir.actions.act_window">
+        <field name="name">Courses1</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">academy.academy</field>
+        <field name="view_mode">tree,form</field>
+        <!--            tree is interface , form is inside  -->
+        <field name="search_view_id" ref="academy.Search_view"/>
+        <!--            تحديد سيرش معين-->
+        <field name="context">{'search_default_group_completed':1}</field>
+        <!--            set exact filter to action from search view we choose-->
+    </record>
+    <!--if adding data and record in this views will automatic appear in it-->
+    <data>
+        <record id="course_5" model="academy.academy">
+            <field name="name">html25</field>
+            <field name="active">true</field>
+            <field name="description">Python advanced course</field>
+        </record>
+    </data>
+
+    <!--if there is another menu will apply any record and data in it auto like the menu in same view -->
+    <menuitem id="courses_menu_no2" name="no2" parent="courses_root" action="main_action_no2" sequence="1"/>
+
+    <record id="main_action_no2" model="ir.actions.act_window">
+        <field name="name">main_action_no2</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">academy.academy</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_ids" eval="[(5,0,0),(0, 0,{'view_mode':'tree','view_id': ref('rrrr_view_tree')})]"/>
+    </record>
+
+    <record id="rrrr_view_tree" model="ir.ui.view">
+        <field name="name">rrrr_view_tree</field>
+        <field name="model">academy.academy</field>
+        <field name="arch" type="xml">
+            <tree string="rrrr_tree">
+                <!-- these fields must be in python models-->
+                <field name="name"/>
+                <field name="price"/>
+                <field name="text"/>
+            </tree>
+        </field>
+    </record>
+
+    <data>
+        <record id="'course_6" model="academy.academy">
+            <field name="name">hjjjtml</field>
+        </record>
+    </data>
+
+</odoo>
+
